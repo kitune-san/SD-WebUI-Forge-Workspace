@@ -4,7 +4,7 @@
 		"dockerfile": "../Dockerfile"
 	},
 	// 1. Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": []
+	"forwardPorts": [7860],
 
 	// 2. Use 'mounts' to make a list of local directories available inside the container. More info: https://code.visualstudio.com/remote/advancedcontainers/add-local-file-mount
 	// "mounts": [],
@@ -25,7 +25,7 @@
 	//		      "username": "vscode",
 	//		      "userUid": "1000",
 	//		      "userGid": "1000",
-			      "upgradePackages": "true"
+			      "upgradePackages": "false"
 			}
 	},
 	// 5. Configure tool-specific properties.
@@ -63,7 +63,7 @@
 	// 8. Use 'onCreateCommand' to run commands INSIDE THE CONTAINER after it started for the first time.
 	// for the nvida containers, sh points to sh-wrap. We want it to point to dash
 	// https://wiki.debian.org/Shell
-	"onCreateCommand": "sudo ln -sf /usr/bin/dash /usr/bin/sh && cp -r -n /app/sd/models ${containerWorkspaceFolder}/ && rm -rf /app/sd/models && ln -s ${containerWorkspaceFolder}/models /app/sd/models && mkdir -p ${containerWorkspaceFolder}/output && ln -s ${containerWorkspaceFolder}/output /app/sd/output",
+	"onCreateCommand": "sudo ln -sf /usr/bin/dash /usr/bin/sh && cp -r -n /app/sd/models ${containerWorkspaceFolder}/ && rm -rf /app/sd/models && ln -s ${containerWorkspaceFolder}/models /app/sd/models && mkdir -p ${containerWorkspaceFolder}/outputs && ln -s ${containerWorkspaceFolder}/outputs /app/sd/outputs",
 
 	// 9. Use 'updateContentCommand' to run commands if the root filetree have any changes, during container creation.
 	// "updateContentCommand": "",
@@ -72,8 +72,8 @@
 	// "postCreateCommand": "",
 
 	// 11. Use 'postStartCommand' to run a command each time the container starts successfully.
-	"postStartCommand": "/app/sd/webui.sh"
+	"postStartCommand": "nohup sh -c '/app/sd/webui.sh &' > output.log 2>&1"
 
 	// 12. Use 'postAttachCommand' to run a command each time a tool attaches to the container successfully.
-	//"postAttachCommand": ""
+	// "postAttachCommand": ""
 }
